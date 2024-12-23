@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+  .topbar{
+    @apply text-lg flex justify-start items-center fixed w-full left-0 h-12
+      bg-gray-300 text-gray-600 border-b-2 border-gray-400;
+  }
+  .icon{
+    @apply ml-6 mr-8;
+  }
+  .section-header{
+    @apply fixed left-1/2 top-2;
+  }
+  .sidebar{
+    @apply fixed top-12 w-16 h-screen bg-gray-300 text-gray-600;
+  }
+  .sidebar-icon{
+    @apply relative flex items-center justify-center
+      h-12 w-12 mt-2 mb-2 mx-auto shadow-md rounded
+      active:border-r-2;
+  }
+  .sidebar-tooltip{
+    @apply rounded absolute w-auto p-2  m-2 min-w-max left-14
+      scale-0 transition-all duration-100 origin-left bg-gray-700 text-white;
+  }
+  .content-header{
+    @apply h-screen pt-16 pl-16 justify-center;
+  }
+  .cpu-list{
+    @apply flex flex-wrap flex-col sm:flex-nowrap sm:flex-row justify-center;
+  }
+  /* .cpu-progress{
+    @apply ;
+  } */
+}
