@@ -29,7 +29,7 @@
     @apply h-screen pt-16 pl-16 justify-center;
   }
   .cpu-list{
-    @apply flex flex-wrap flex-col sm:flex-nowrap sm:flex-row justify-center;
+    @apply flex flex-wrap justify-center;
   }
   /* .cpu-progress{
     @apply ;

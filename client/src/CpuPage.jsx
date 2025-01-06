@@ -16,9 +16,10 @@ const CpuPage = ({ section }) => {
                 }
             )
 
-            const ws = new WebSocket('/ws/cpu');
+            const ws = new WebSocket('/ws');
             ws.onopen = () => {
                 console.log('WebSocket connection opened');
+                ws.send(JSON.stringify({type: 'cpu'}))
             };
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
@@ -50,7 +51,7 @@ const CpuPage = ({ section }) => {
                                 return (
                                     <div key={i}>
                                         <li className='m-3' >
-                                            <h4>{'CPU#' + i + ': ' + cpu + '%'}</h4>
+                                            <h4>{'Core ' + i + ': ' + cpu + '%'}</h4>
                                             <progress className='cpu-progress' value={cpu / 100}></progress>
                                         </li>
                                     </div>

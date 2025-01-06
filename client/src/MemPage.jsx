@@ -7,34 +7,27 @@ const MemPage = ({ section }) => {
 
     useEffect(() => {
         if (section == 'memory') {
-            fetch('/api/mem').then(
-                response => response.json()
-            ).then(
-                data => {
-                    setMemData(data);
-                    setUsedMemory(100 * data.free / data.total)
-                    setLoading(false);
-                }
-            )
-
-            // const ws = new WebSocket('/ws/mem');
-            // ws.onopen = () => {
-            //     console.log('WebSocket connection opened');
-            // };
-            // ws.onmessage = (event) => {
-            //     const data = JSON.parse(event.data);
-            //     setMemData(data);
-            // };
-            // ws.onclose = () => {
-            //     console.log('WebSocket connection closed');
-            //     // setWebSocketData([{}])
-            // };
-            // // ws.onerror = (error) => {
-            // //   console.error('WebSocket error:', error);
-            // // };
-            // return () => {
-            //     ws.close();
-            // };
+            const ws = new WebSocket('/ws');
+            ws.onopen = () => {
+                console.log('WebSocket connection opened');
+                ws.send(JSON.stringify({ type: 'mem' }));
+            };
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                setMemData(data);
+                setUsedMemory(100 * (data.total - data.free) / data.total)
+                setLoading(false);
+            };
+            ws.onclose = () => {
+                console.log('WebSocket connection closed');
+                // setWebSocketData([{}])
+            };
+            ws.onerror = (error) => {
+              console.error('WebSocket error:', error);
+            };
+            return () => {
+                ws.close();
+            };
         }
     }, [])
 
@@ -44,7 +37,7 @@ const MemPage = ({ section }) => {
                 <>
                     <h1>{'Memory Usage:'}</h1>
                     <h1>{usedMemory + '%'}</h1>
-                    <progress value={usedMemory} max = {100} />
+                    <progress value={usedMemory} max={100} />
                 </>
             )}
         </div>

@@ -7,10 +7,10 @@ import { LuCpu,LuHardDrive, LuMemoryStick } from "react-icons/lu";
 import { FaRaspberryPi } from "react-icons/fa";
 import MemPage from './MemPage';
 
+// add sign in page, 
 
-
-const icons = [<LuCpu />, <LuHardDrive />, <LuMemoryStick/>];
-const values = ['Cpu','Storage', 'Memory']
+const icons = [<LuCpu />, <LuMemoryStick/>];
+const values = ['Cpu', 'Memory']
 
 function App() {
   // const [backendData, setBackendData] = useState([{}]);

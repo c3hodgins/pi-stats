@@ -4,8 +4,6 @@ const os = require('os')
 const fs = require('fs');
 const path = require('path');
 const WebSocket = require('ws');
-const { exec } = require('child_process');
-const { stdout } = require('process');
 
 const wsport = 8080;
 
@@ -66,18 +64,27 @@ app.get('/api/mem', async (request, response) => {
         total: os.totalmem(),
         free: os.freemem()
     };
-    response.json(mem_data)
 })
 
 wsocket.on('connection', (ws) => {
     console.log("Connected");
+    ws.on('message', (message) => {
+        const request = JSON.parse(message);
 
-    setInterval(() => {
-        ws.send(JSON.stringify({
-            "cpuTemp": getCpuTemp(),
-            "cpuUsage": getCpuUsage()
-        }));
-    }, 2000);
+        setInterval(() => {
+            if (request.type == 'cpu') {
+                ws.send(JSON.stringify({
+                    "cpuTemp": getCpuTemp(),
+                    "cpuUsage": getCpuUsage()
+                }));
+            } else if (request.type == 'mem') {
+                ws.send(JSON.stringify({
+                    "total": os.totalmem(),
+                    "free": os.freemem()
+                }));
+            }
+        }, 2000);
+    })
     ws.on('close', () => {
         console.log('client disconnected');
     });
